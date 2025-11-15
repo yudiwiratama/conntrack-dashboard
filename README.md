@@ -1,6 +1,9 @@
 # Conntrack Dashboard
 
-Dashboard interaktif untuk monitoring, agregasi, dan visualisasi data conntrack dari mesin Linux Anda.
+Dashboard monitoring, agregasi, dan visualisasi data conntrack linux machine.
+
+<img width="1908" height="2996" alt="image" src="https://github.com/user-attachments/assets/ff137ea4-dcaf-4b0d-b806-0198839df69e" />
+
 
 ## Fitur
 
