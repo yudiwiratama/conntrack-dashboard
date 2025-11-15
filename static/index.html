@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conntrack Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Conntrack Dashboard</h1>
+            <p class="subtitle">Monitoring & Analisis Koneksi Network Linux</p>
+            <div class="header-controls">
+                <button id="refreshBtn" class="btn btn-primary">Refresh Data</button>
+                <span id="lastUpdate" class="last-update">-</span>
+                <label class="auto-refresh">
+                    <input type="checkbox" id="autoRefresh" checked>
+                    Auto-refresh (5s)
+                </label>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Koneksi</div>
+                <div class="stat-value" id="totalConnections">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Protocol Aktif</div>
+                <div class="stat-value" id="activeProtocols">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">State Unik</div>
+                <div class="stat-value" id="uniqueStates">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Waktu Update</div>
+                <div class="stat-value" id="updateTime">-</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h2>Distribusi Protocol</h2>
+                <canvas id="protocolChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h2>Distribusi State</h2>
+                <canvas id="stateChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h2>Top 10 Source IP</h2>
+                <canvas id="sourceIpChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h2>Top 10 Destination IP</h2>
+                <canvas id="destIpChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h2>Top 10 Destination Ports</h2>
+                <canvas id="destPortChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h2>Protocol vs State Matrix</h2>
+                <canvas id="protocolStateChart"></canvas>
+            </div>
+        </div>
+
+        <div class="data-section">
+            <h2>Detail Koneksi</h2>
+            <div class="table-controls">
+                <input type="text" id="searchInput" placeholder="Cari (IP, port, protocol, state)..." class="search-input">
+                <select id="filterProtocol" class="filter-select">
+                    <option value="">Semua Protocol</option>
+                </select>
+                <select id="filterState" class="filter-select">
+                    <option value="">Semua State</option>
+                </select>
+                <select id="limitSelect" class="filter-select" title="Limit jumlah koneksi yang ditampilkan">
+                    <option value="10">10</option>
+                    <option value="100" selected>100</option>
+                    <option value="1000">1000</option>
+                    <option value="all">All</option>
+                </select>
+            </div>
+            <div class="table-container">
+                <table id="connectionsTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-sort="protocol">
+                                Protocol <span class="sort-icon">↕</span>
+                            </th>
+                            <th class="sortable" data-sort="state">
+                                State <span class="sort-icon">↕</span>
+                            </th>
+                            <th class="sortable" data-sort="src">
+                                Source IP <span class="sort-icon">↕</span>
+                            </th>
+                            <th class="sortable" data-sort="sport">
+                                Source Port <span class="sort-icon">↕</span>
+                            </th>
+                            <th class="sortable" data-sort="dst">
+                                Destination IP <span class="sort-icon">↕</span>
+                            </th>
+                            <th class="sortable" data-sort="dport">
+                                Destination Port <span class="sort-icon">↕</span>
+                            </th>
+                            <th class="sortable" data-sort="flags">
+                                Flags <span class="sort-icon">↕</span>
+                            </th>
+                            <th class="sortable" data-sort="mark">
+                                Mark <span class="sort-icon">↕</span>
+                            </th>
+                            <th class="sortable" data-sort="use">
+                                Use <span class="sort-icon">↕</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="connectionsTableBody">
+                        <tr>
+                            <td colspan="9" class="loading">Memuat data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>
+
